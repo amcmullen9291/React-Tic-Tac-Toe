@@ -134,26 +134,6 @@ ol, ul {
 }
 
 
-/* .transition{
-  /* fade in */
-  /* -webkit-animation: fadeinout 4s; */
-  /* Safari, Chrome and Opera > 12.1 */
-  /* -moz-animation: fadeinout 4s; */
-  /* Firefox < 16 */
-  /* -ms-animation: fadeinout 4s; */
-  /* Internet Explorer */
-  /* -o-animation: fadeinout 4s; */
-  /* Opera < 12.1 */
-  /* animation: fadeinout 4s; */
-/* } */
-/* @keyframes fadeinout { */
-  /* from {
-      opacity: 0;
-  }
-  33% {
-      opacity: 1;
-  }
-  to {
-      opacity: 0;
-  } */
-/* } */ 
+html{
+  font-size: 24px;
+}

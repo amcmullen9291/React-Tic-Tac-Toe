@@ -95,6 +95,7 @@ chooseTokenFunction();
           onClick={(event) => {
             event.target.style.color = color;
             event.target.className = "transition"; 
+            event.target.disabled = "disabled";
             if (squares[i] != null || winner != null) {
               return;
             }
@@ -108,6 +109,8 @@ chooseTokenFunction();
     }
     
     function getStatus() {
+      // let playAgainButton = document.getElementsByClassName("restart");
+
       if(window.playersChoice == null){
         return "Let's play!"
       }

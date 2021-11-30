@@ -41,13 +41,13 @@ async function chooseTokenFunction (){
     inputOptions: inputOptions,
     inputValidator: (value) => {
       if (!value) {
-        return 'You need to choose something!'
+        return "Please choose 'X' or 'O'";
       }
     }
   })
   
   if (token) {
-    Swal.fire({ html: `You selected: ${token}` });
+    Swal.fire({ html: `You will be ${token}'s` });
     if(token ==="X"){
       window.playersChoice = "X";
       window.computersChoice = "O";
@@ -82,6 +82,7 @@ chooseTokenFunction();
         onClick={() => {
           setSquares(Array(9).fill(null));
           setIsXNext(true);
+          window.location.reload();        
         }}
       />
     );
@@ -94,8 +95,8 @@ chooseTokenFunction();
           value={squares[i]}
           onClick={(event) => {
             event.target.style.color = color;
-            event.target.className = "transition"; 
-            event.target.disabled = "disabled";
+            event.target.className = "transition";
+            event.target.disabled = "disabled"; 
             if (squares[i] != null || winner != null) {
               return;
             }
@@ -109,14 +110,14 @@ chooseTokenFunction();
     }
     
     function getStatus() {
-      // let playAgainButton = document.getElementsByClassName("restart");
-
       if(window.playersChoice == null){
         return "Let's play!"
       }
       if (winner) {
+        setTimeout(() => {window.location.reload()}, 4000);        
         return "Winner: " + winner;
       } else if (isBoardFull(squares)) {
+        setTimeout(() => {window.location.reload()}, 4000);        
         return "Draw!";
       } else {
         return "Player " + nextSymbol + "'s turn.";
@@ -182,4 +183,3 @@ function isBoardFull(squares) {
 }
 
 ReactDOM.render(<Game />, document.getElementById("root"));
-

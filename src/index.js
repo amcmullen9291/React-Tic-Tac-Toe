@@ -4,6 +4,9 @@ import "./index.css";
 import Swal from 'sweetalert2';
 
 
+var playersChoice;
+var computersChoice;
+
 function Square({ value, onClick }) {
   return (
     <button className="square" onClick={onClick}>
@@ -20,9 +23,6 @@ function Restart({ onClick }) {
     </button>
   );
 }
-
-var playersChoice;
-var computersChoice;
 
 
 async function chooseTokenFunction (){
@@ -49,13 +49,13 @@ async function chooseTokenFunction (){
   if (token) {
     Swal.fire({ html: `You selected: ${token}` });
     if(token ==="X"){
-      var playersChoice = "X";
-      var computersChoice = "O";
+      window.playersChoice = "X";
+      window.computersChoice = "O";
 
       console.log("player 1 wil be: " + playersChoice);
     }else{
-      var playersChoice = "O";
-      var computersChoice = "X";
+      window.playersChoice = "O";
+      window.computersChoice = "X";
       console.log("player 1 wil be: " + playersChoice);
     }
   }
@@ -63,9 +63,6 @@ async function chooseTokenFunction (){
 
 
 var chooseToken = "false";
-// var playersChoice;
-// var computersChoice;
-
 
 function Game() {
   if(chooseToken === "false"){
@@ -76,7 +73,7 @@ chooseTokenFunction();
   const [ squares, setSquares ] = useState(Array(9).fill(null));
   // const [ isXNext, setIsXNext ] = useState(true);
   const [ isXNext, setIsXNext ] = useState(true);
-  const nextSymbol = isXNext ? "X" : "O";
+  const nextSymbol = isXNext ? window.playersChoice : window.computersChoice;
   const winner = calculateWinner(squares);
 
   function renderRestartButton() {
@@ -90,11 +87,8 @@ chooseTokenFunction();
     );
   }
 
-    //let player choose 'X' or 'O' here
     function renderSquare(i) {
       let color = (isXNext ? "#E74C3C" : "#F4D03F");
-      let player1sChoice = playersChoice;
-      let computersChoice2 = computersChoice;
       return (
         <Square 
           value={squares[i]}
@@ -105,7 +99,7 @@ chooseTokenFunction();
               return;
             }
             const nextSquares = squares.slice();
-            nextSquares[i] = (isXNext ? "X" : "O");
+            nextSquares[i] = (isXNext ? window.playersChoice : window.computersChoice);
             setSquares(nextSquares);
             setIsXNext(!isXNext); 
           }}
@@ -114,12 +108,15 @@ chooseTokenFunction();
     }
     
     function getStatus() {
+      if(window.playersChoice == null){
+        return "Let's play!"
+      }
       if (winner) {
         return "Winner: " + winner;
       } else if (isBoardFull(squares)) {
         return "Draw!";
       } else {
-        return "Next player: " + nextSymbol;
+        return "Player " + nextSymbol + "'s turn.";
       }
     }
     return (

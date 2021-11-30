@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
+import Swal from 'sweetalert2';
 
 
 function Square({ value, onClick }) {
@@ -19,15 +20,64 @@ function Restart({ onClick }) {
     </button>
   );
 }
-function Game() {
 
+var playersChoice;
+var computersChoice;
+
+
+async function chooseTokenFunction (){
+  const inputOptions = new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({
+        'X': 'X',
+        'O': 'O',
+      })
+    }, 1000)
+  })
+  
+  const { value: token } = await Swal.fire({
+    title: 'Select a token',
+    input: 'radio',
+    inputOptions: inputOptions,
+    inputValidator: (value) => {
+      if (!value) {
+        return 'You need to choose something!'
+      }
+    }
+  })
+  
+  if (token) {
+    Swal.fire({ html: `You selected: ${token}` });
+    if(token ==="X"){
+      var playersChoice = "X";
+      var computersChoice = "O";
+
+      console.log("player 1 wil be: " + playersChoice);
+    }else{
+      var playersChoice = "O";
+      var computersChoice = "X";
+      console.log("player 1 wil be: " + playersChoice);
+    }
+  }
+}
+
+
+var chooseToken = "false";
+// var playersChoice;
+// var computersChoice;
+
+
+function Game() {
+  if(chooseToken === "false"){
+chooseTokenFunction();
+  }
+ chooseToken = true;
   const [ variableWeWantToKeepTrackOf, functionToSetSaidVariable ] = useState();
   const [ squares, setSquares ] = useState(Array(9).fill(null));
+  // const [ isXNext, setIsXNext ] = useState(true);
   const [ isXNext, setIsXNext ] = useState(true);
   const nextSymbol = isXNext ? "X" : "O";
   const winner = calculateWinner(squares);
-
-  var color = "red";
 
   function renderRestartButton() {
     return (
@@ -42,21 +92,22 @@ function Game() {
 
     //let player choose 'X' or 'O' here
     function renderSquare(i) {
-      let color = (isXNext ? "blue" : "red");
-
+      let color = (isXNext ? "#E74C3C" : "#F4D03F");
+      let player1sChoice = playersChoice;
+      let computersChoice2 = computersChoice;
       return (
         <Square 
           value={squares[i]}
           onClick={(event) => {
             event.target.style.color = color;
-            event.target.className = "transition"; //new
+            event.target.className = "transition"; 
             if (squares[i] != null || winner != null) {
               return;
             }
             const nextSquares = squares.slice();
             nextSquares[i] = (isXNext ? "X" : "O");
             setSquares(nextSquares);
-            setIsXNext(!isXNext); // toggle turns
+            setIsXNext(!isXNext); 
           }}
         />
       );
